@@ -8,7 +8,7 @@ export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
-    console.log('test')
+    // console.log('test')
     fetch('/api/comments')
       .then((response) => response.json())
       // .then((data) => setComments(data))

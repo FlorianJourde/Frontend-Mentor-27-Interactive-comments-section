@@ -27,7 +27,7 @@ export default function Textarea() {
 
       const data = await response.json();
 
-      // console.log(data);
+      // // console.log(data);
       
       setContent('');
       setAuthor('');

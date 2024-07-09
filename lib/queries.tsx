@@ -28,15 +28,37 @@ export const updateComment = (id: any, content: any) => {
 };
 
 export function insertComment(content: string, author: string): Promise<Comment> {
-  console.log('text inserted');
+  // const [result] = await db.execute<any>(
+  //   'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
+  //   [content, author]
+  // );
 
-  const [result] = db.query(
-    'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
-    [content, author]
-  );
+  // const insertId = (result as any).insertId;
+  // const [rows] = await db.execute<Comment[]>('SELECT * FROM comments WHERE id = ?', [insertId]);
+  // return rows[0];
 
-  const [rows] = db.query('SELECT * FROM comments WHERE id = ?', [result.insertId]);
-  return rows[0];
+  // const [result] = db.query(
+  //   'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
+  //   [content, author]
+  // );
+
+  // const [rows] = db.query('SELECT * FROM comments WHERE id = ?', [result.insertId]);
+  // return rows[0];
+
+
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      'INSERT INTO comments (description, author, created_at) VALUES (?, ?, NOW())',
+      [content, author],
+      (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(result);
+      }
+    );
+  });
 }
 
 // export async function insertComment(content: string, author: string): Promise<Comment> {
