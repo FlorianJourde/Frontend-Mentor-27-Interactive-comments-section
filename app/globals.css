@@ -2,7 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+
+.wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  flex-direction: inherit;
+  flex-wrap: inherit;
+  gap: inherit;
+  z-index: inherit;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  @media (min-width: 640px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,4 +53,5 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
+

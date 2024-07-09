@@ -2,50 +2,19 @@
 
 import { comment } from 'postcss';
 import { useEffect, useState } from 'react';
+import { Comment } from '@/interfaces/comment';
+import { formatDate } from '@/lib/formatDate'
+import Comments from '@/components/Comments';
+import Textarea from '@/components/Textarea';
 
 export default function Home() {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    // console.log('test')
-    fetch('/api/comments')
-      .then((response) => response.json())
-      .then((data) => setComments(data))
-      // .then((comments) => console.log(comments))
-      // .then((data) => console.log(data))
-      .catch((error) => console.error('Error fetching comments:', error));
-  }, []);
-
-  // useEffect(() => {
-  //   console.log('test')
-  //   fetch('/api/comments')
-  //     .then((response) => response.json())
-  //     // .then((data) => setComments(data))
-  //     .then((data) => console.log(data))
-  //     .catch((error) => console.error('Error fetching comments:', error));
-  // }, []);
-
-  // console.log(comments);
-
   return (
-    <div>
-      <h1>Comments</h1>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            <p>{comment.likes}</p>
-            <p>
-              {comment.description}
-            </p>
-            <p>
-              {comment.user}
-            </p>
-          </li>
-          //  <li key={comment.id}>{comment.content}</li>
-          //  {comment}
-        ))}
-      </ul>
-    </div>
+    <main className='flex flex-col gap-5'>
+      <div className='wrapper'>
+        <Comments />
+        <Textarea />
+      </div>
+    </main>
   );
 }
 
