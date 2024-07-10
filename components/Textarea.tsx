@@ -27,8 +27,6 @@ export default function Textarea() {
 
       const data = await response.json();
 
-      // // console.log(data);
-      
       setContent('');
       setAuthor('');
       setSuccess('Comment added successfully!');
@@ -38,13 +36,6 @@ export default function Textarea() {
   };
 
   return (
-    // <div className='bg-white rounded-2xl p-5 flex gap-5'>
-    //   <textarea className='w-full border border-solid p-4 rounded-lg' name="" id="">
-    //     Textarea
-    //   </textarea>
-    //   <button>Send</button>
-    //   </div>
-
 
     <form className='bg-white rounded-2xl p-5 flex gap-5' onSubmit={handleSubmit}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -53,7 +44,7 @@ export default function Textarea() {
         <div>
           <label htmlFor="author">Author</label>
           <input
-          
+
             className='w-full border border-solid p-4 rounded-lg'
             type="text"
             id="author"
@@ -74,7 +65,6 @@ export default function Textarea() {
 
       <button type="submit" className='bg-[#5358b6] p-5 rounded-lg text-white uppercase'>Submit</button>
     </form>
-
 
 
   )

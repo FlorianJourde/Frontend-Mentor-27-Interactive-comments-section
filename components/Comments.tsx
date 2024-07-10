@@ -8,15 +8,50 @@ export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
-    // console.log('test')
     fetch('/api/comments')
       .then((response) => response.json())
-      // .then((data) => setComments(data))
       .then((data) => setComments(data.comments))
-      // .then((comments) => console.log(comments))
-      // .then((data) => console.log(data.comments))
       .catch((error) => console.error('Error fetching comments:', error));
   }, []);
+
+  const updateLikes = async (commentId: number, currentLikes: number, buttonPressed: string) => {
+    if (buttonPressed === '+') {
+      currentLikes++
+    } else {
+      currentLikes--
+    }
+
+    console.log(currentLikes);
+
+    const response = await fetch('/api/comments/[id]/likes', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ currentLikes, commentId }),
+    })
+
+    if (response.ok) {
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId ? { ...comment, likes: currentLikes } : comment
+        )
+      );
+    } else {
+      console.error('Failed to update likes');
+    }
+
+
+
+
+
+
+
+
+
+  };
+
+
   return (
     <>
       <h1>Comments</h1>
@@ -24,9 +59,9 @@ export default function Comments() {
         {comments.map((comment) => (
           <li key={comment.id} className='bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5'>
             <div className='likes flex flex-col bg-[#f5f6fa] rounded-xl justify-center items-center p-3'>
-              <button>+</button>
+              <button onClick={() => updateLikes(comment.id, comment.likes, '+')}>+</button>
               <p>{comment.likes}</p>
-              <button>-</button>
+              <button onClick={() => updateLikes(comment.id, comment.likes, '-')}>-</button>
             </div>
             <div className='content'>
               <div className="header flex gap-5">

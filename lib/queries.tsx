@@ -28,25 +28,6 @@ export const updateComment = (id: any, content: any) => {
 };
 
 export function insertComment(content: string, author: string): Promise<Comment> {
-  // const [result] = await db.execute<any>(
-  //   'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
-  //   [content, author]
-  // );
-
-  // const insertId = (result as any).insertId;
-  // const [rows] = await db.execute<Comment[]>('SELECT * FROM comments WHERE id = ?', [insertId]);
-  // return rows[0];
-
-  // const [result] = db.query(
-  //   'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
-  //   [content, author]
-  // );
-
-  // const [rows] = db.query('SELECT * FROM comments WHERE id = ?', [result.insertId]);
-  // return rows[0];
-
-
-
   return new Promise((resolve, reject) => {
     db.query(
       'INSERT INTO comments (description, author, created_at) VALUES (?, ?, NOW())',
@@ -61,26 +42,9 @@ export function insertComment(content: string, author: string): Promise<Comment>
   });
 }
 
-// export async function insertComment(content: string, author: string): Promise<Comment> {
-//   const [result] = await db.query(
-//     'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
-//     [content, author]
-//   );
-
-//   const [rows] = await db.query('SELECT * FROM comments WHERE id = ?', [result.insertId]);
-//   return rows[0];
-// }
-
-// export async function POST(req: NextRequest) {
-//   try {
-//     const { content, author } = await req.json();
-//     const [result] = await db.query(
-//       'INSERT INTO comments (content, author, created_at) VALUES (?, ?, NOW())',
-//       [content, author]
-//     );
-
-//     return NextResponse.json({ id: result.insertId, content, author, created_at: new Date() });
-//   } catch (err) {
-//     return NextResponse.json({ error: err.message }, { status: 500 });
-//   }
-// }
+export async function updateCommentLikes(likes: number, id: number): Promise<void> {
+  await db.query(
+    'UPDATE comments SET likes = ? WHERE id = ?',
+    [likes, id]
+  );
+}
