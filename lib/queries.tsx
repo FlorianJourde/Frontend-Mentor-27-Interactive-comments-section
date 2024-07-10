@@ -1,9 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
 import db from './db';
 
-export const getComments = () => {
+// export function getComments() {
+//   return new Promise((resolve, reject) => {
+//     db.query('SELECT * FROM comments', (err, results) => {
+//       if (err) {
+//         return reject(err);
+//       }
+//       resolve(results);
+//     });
+//   });
+// };
+
+export function getComments() {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM comments', (err, results) => {
+    db.query(
+      `
+      SELECT *
+      FROM comments
+      ORDER BY 
+          CASE WHEN related_comment IS NOT NULL THEN related_comment ELSE id END,
+          id;
+      `, (err, results) => {
       if (err) {
         return reject(err);
       }
@@ -12,7 +29,7 @@ export const getComments = () => {
   });
 };
 
-export const updateComment = (id: any, content: any) => {
+export function updateComment(id: any, content: any) {
   return new Promise((resolve, reject) => {
     db.query(
       'UPDATE comments SET content = ? WHERE id = ?',
@@ -27,11 +44,14 @@ export const updateComment = (id: any, content: any) => {
   });
 };
 
-export function insertComment(content: string, author: string): Promise<Comment> {
+export function insertComment(content: string, author: string, related_comment: number | null): Promise<Comment> {
   return new Promise((resolve, reject) => {
+    related_comment ? related_comment === undefined : related_comment
+    console.log(related_comment);
+
     db.query(
-      'INSERT INTO comments (description, author, created_at) VALUES (?, ?, NOW())',
-      [content, author],
+      'INSERT INTO comments (description, author, created_at, related_comment) VALUES (?, ?, NOW(), ?)',
+      [content, author, related_comment],
       (err, result) => {
         if (err) {
           return reject(err);
@@ -51,7 +71,6 @@ export async function updateCommentLikes(likes: number, id: number): Promise<voi
 
 export async function deleteComment(id: number): Promise<void> {
   await db.query(
-    // 'DELETE comments WHERE id = ?',
     'DELETE FROM comments WHERE id = ?',
     [id]
   );

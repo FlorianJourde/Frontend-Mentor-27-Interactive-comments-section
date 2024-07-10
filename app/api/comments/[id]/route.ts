@@ -2,12 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { deleteComment, updateCommentLikes } from '@/lib/queries';
 
 export async function DELETE(req: NextRequest) {
-  // console.log(req.json());
   try {
-    const { commentId } = await req.json();
-    // console.log('Test');
-    console.log({ commentId });
-    
+    const { commentId } = await req.json();  
     await deleteComment(commentId);
 
     return NextResponse.json({ success: true });

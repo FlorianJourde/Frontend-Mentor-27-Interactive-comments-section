@@ -1,7 +1,6 @@
 'use client'
 
 import Comments from '@/components/Comments';
-// import Textarea from '@/components/Textarea';
 
 export default function Home() {
   return (

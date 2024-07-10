@@ -4,6 +4,6 @@ export interface Comment {
   description: string;
   created_at: string;
   updated_at: string;
-  status: boolean;
   likes: number;
+  related_comment: number | null;
 }

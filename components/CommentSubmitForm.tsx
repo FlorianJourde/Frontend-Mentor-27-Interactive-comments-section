@@ -12,6 +12,7 @@ export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }
     setError(null);
     setSuccess(null);
 
+
     try {
       const response = await fetch('/api/comments', {
         method: 'POST',
@@ -37,12 +38,11 @@ export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }
   return (
     <form className='bg-white rounded-2xl p-5 flex gap-5 items-start' onSubmit={handleSubmit}>
       <div className="content flex flex-col gap-5 grow">
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
         <div>
-          {/* <label htmlFor="author">Author</label> */}
           <input
-          placeholder='Author'
+            placeholder='Author'
             className='w-full border border-solid p-4 rounded-lg'
             type="text"
             id="author"
@@ -51,10 +51,8 @@ export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }
           />
         </div>
         <div>
-          {/* <label htmlFor="content">Comment</label> */}
           <textarea
-                    placeholder='Comment'
-
+            placeholder='Comment'
             className='w-full border border-solid p-4 rounded-lg'
             id="content"
             value={content}

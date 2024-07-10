@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function CommentReplyForm({ commentId, onUpdate }: { commentId: number, onUpdate: () => void }) {
+export default function CommentReplyForm({ commentId, commentRelatedId, onUpdate }: { commentId: number, commentRelatedId: number | null, onUpdate: () => void }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -8,9 +8,7 @@ export default function CommentReplyForm({ commentId, onUpdate }: { commentId: n
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    // setError(null);
-    // setSuccess(null);
+    commentRelatedId ? commentId = commentRelatedId : commentId
 
     try {
       const response = await fetch('/api/comments', {
@@ -18,19 +16,15 @@ export default function CommentReplyForm({ commentId, onUpdate }: { commentId: n
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content, author }),
+        body: JSON.stringify({ content, author, commentId }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to submit comment');
       }
 
-      // setContent('');
-      // setAuthor('');
-      // setSuccess('Comment added successfully!');
       onUpdate();
     } catch (error: any) {
-      // setError(error.message);
     }
   };
 
@@ -40,7 +34,6 @@ export default function CommentReplyForm({ commentId, onUpdate }: { commentId: n
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {success && <p style={{ color: 'green' }}>{success}</p>}
         <div>
-          {/* <label htmlFor="author">Author</label> */}
           <input
             placeholder='Author'
             className='w-full border border-solid p-4 rounded-lg'
@@ -51,7 +44,6 @@ export default function CommentReplyForm({ commentId, onUpdate }: { commentId: n
           />
         </div>
         <div>
-          {/* <label htmlFor="content">Comment</label> */}
           <textarea
             placeholder='Comment'
             className='w-full border border-solid p-4 rounded-lg'

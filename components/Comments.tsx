@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import { Comment } from '@/interfaces/comment';
 import { formatDate } from '@/lib/formatDate'
 import Delete from '@/components/DeleteForm';
-// import Textarea from './CommentSubmitForm';
 import CommentSubmitForm from './CommentSubmitForm';
 import CommentReplyForm from './CommentReplyForm';
 import DeleteForm from '@/components/DeleteForm';
-// import Delete from './Delete';
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -19,10 +17,14 @@ export default function Comments() {
   const [updateComments, setUpdateComments] = useState(false);
 
   useEffect(() => {
+
     fetch('/api/comments')
       .then((response) => response.json())
-      .then((data) => setComments(data.comments))
+      .then((data) => {
+        setComments(data.comments)
+      })
       .catch((error) => console.error('Error fetching comments:', error));
+
   }, [updateComments]);
 
   const handleDeleteClick = (id: number) => {
@@ -34,25 +36,12 @@ export default function Comments() {
   const handleReplyClick = (id: number) => {
     setCommentId(id);
     setIsUpdateFormVisible(true);
-    // setActiveCommentId(null);
     setActiveCommentId(id);
   };
 
-  // const handleCommentsUpdated = (id: number) => {
   const handleCommentsUpdated = () => {
     setUpdateComments((prev) => !prev);
-    // setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
-    // setComments((prevComments) => prevComments.filter((comment) => comment.id));
-    // setIsFormVisible(false);
-    // setCommentId(null);
   };
-
-
-  const handleCommentDeleted = (id: number) => {
-    // setUpdateComments((prev) => !prev);
-    setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
-
-  }
 
   const handleCloseForm = () => {
     setIsDeleteFormVisible(false);
@@ -91,7 +80,8 @@ export default function Comments() {
       <ul className='flex flex-col gap-5'>
         {comments.map((comment) => (
           <>
-            <li key={comment.id} className='bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5'>
+            {/* <h1>{{comment}}</h1> */}
+            <li key={`${comment.id}-${comment.author}`} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 + ${comment.related_comment ? 'ml-20' : ''}`}>
               <div className='likes flex flex-col bg-[#f5f6fa] rounded-xl justify-center items-center p-3'>
                 <button onClick={() => updateLikes(comment.id, comment.likes, '+')}>+</button>
                 <p>{comment.likes}</p>
@@ -100,6 +90,7 @@ export default function Comments() {
               <div className='content'>
                 <div className="header flex gap-5">
                   <p>{comment.author}</p>
+                  {/* <p>{comment.related_comment}</p> */}
                   {/* <p>{comment.createdAt}</p> */}
                   {/* <p>{comment.createdAt}</p> */}
                   <p className='grow'>{formatDate(comment.created_at)}</p>
@@ -122,9 +113,9 @@ export default function Comments() {
                 <p>{comment.description}</p>
               </div>
             </li>
-            {isUpdateFormVisible && activeCommentId === comment.id && ( 
-              <CommentReplyForm commentId={comment.id} onUpdate={handleCommentsUpdated} />
-              )}
+            {isUpdateFormVisible && activeCommentId === comment.id && (
+              <CommentReplyForm commentId={comment.id} onUpdate={handleCommentsUpdated} commentRelatedId={comment.related_comment} />
+            )}
           </>
         ))}
       </ul>
