@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { deleteComment, updateCommentLikes } from '@/lib/queries';
+import { deleteComment } from '@/lib/queries';
 
 export async function DELETE(req: NextRequest) {
   try {

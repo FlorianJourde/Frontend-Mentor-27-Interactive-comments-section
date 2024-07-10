@@ -1,16 +1,53 @@
+import { Comment } from '@/interfaces/comment';
 import React, { useEffect, useState } from 'react'
 
-export default function CommentReplyForm({ commentId, commentRelatedId, onUpdate }: { commentId: number, commentRelatedId: number | null, onUpdate: () => void }) {
+export default function CommentReplyForm({
+  onUpdate,
+  comment,
+  isEditing
+}: {
+  onUpdate: () => void,
+  comment: Comment,
+  isEditing: boolean
+}) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (isEditing) {
+      setAuthor(comment.author);
+      setContent(comment.description);
+    } else {
+      setAuthor('');
+      setContent('');
+    }
+  }, [isEditing, comment.description, comment.author]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    commentRelatedId ? commentId = commentRelatedId : commentId
 
-    try {
+    let commentId: number = comment.id;
+
+    if (isEditing) {
+      console.log('editing');
+
+      const response = await fetch('/api/comments', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content, author, commentId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to edit comment');
+      }
+    } else {
+      console.log('not editing');
+      comment.related_comment ? commentId = comment.related_comment : commentId
+
       const response = await fetch('/api/comments', {
         method: 'POST',
         headers: {
@@ -22,10 +59,10 @@ export default function CommentReplyForm({ commentId, commentRelatedId, onUpdate
       if (!response.ok) {
         throw new Error('Failed to submit comment');
       }
-
-      onUpdate();
-    } catch (error: any) {
     }
+
+    onUpdate();
+
   };
 
   return (
@@ -42,6 +79,7 @@ export default function CommentReplyForm({ commentId, commentRelatedId, onUpdate
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
+          {/* {isEditing ? 'Update' : 'Reply'} */}
         </div>
         <div>
           <textarea
@@ -53,7 +91,9 @@ export default function CommentReplyForm({ commentId, commentRelatedId, onUpdate
           />
         </div>
       </div>
-      <button type="submit" className='bg-[#5358b6] p-5 rounded-lg text-white uppercase'>Reply</button>
+      <button type="submit" className='bg-[#5358b6] p-5 rounded-lg text-white uppercase'>
+        {isEditing ? 'Update' : 'Reply'}
+      </button>
     </form>
   )
 }

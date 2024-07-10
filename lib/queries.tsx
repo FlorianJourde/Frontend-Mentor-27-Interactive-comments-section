@@ -13,8 +13,7 @@ import db from './db';
 
 export function getComments() {
   return new Promise((resolve, reject) => {
-    db.query(
-      `
+    db.query(`
       SELECT *
       FROM comments
       ORDER BY 
@@ -29,21 +28,6 @@ export function getComments() {
   });
 };
 
-export function updateComment(id: any, content: any) {
-  return new Promise((resolve, reject) => {
-    db.query(
-      'UPDATE comments SET content = ? WHERE id = ?',
-      [content, id],
-      (err, result) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(result);
-      }
-    );
-  });
-};
-
 export function insertComment(content: string, author: string, related_comment: number | null): Promise<Comment> {
   return new Promise((resolve, reject) => {
     related_comment ? related_comment === undefined : related_comment
@@ -52,6 +36,21 @@ export function insertComment(content: string, author: string, related_comment: 
     db.query(
       'INSERT INTO comments (description, author, created_at, related_comment) VALUES (?, ?, NOW(), ?)',
       [content, author, related_comment],
+      (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(result);
+      }
+    );
+  });
+}
+
+export function editComment(content: string, author: string, id: number | null): Promise<Comment> {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'UPDATE comments SET description = ?, author = ?, updated_at = NOW() WHERE id = ?',
+      [content, author, id],
       (err, result) => {
         if (err) {
           return reject(err);

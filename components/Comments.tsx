@@ -12,6 +12,7 @@ export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [commentId, setCommentId] = useState<number | null>(null);
   const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
   const [updateComments, setUpdateComments] = useState(false);
@@ -36,6 +37,14 @@ export default function Comments() {
   const handleReplyClick = (id: number) => {
     setCommentId(id);
     setIsUpdateFormVisible(true);
+    setIsEditing(false);
+    setActiveCommentId(id);
+  };
+
+  const handleEditClick = (id: number) => {
+    setCommentId(id);
+    setIsUpdateFormVisible(true);
+    setIsEditing(true);
     setActiveCommentId(id);
   };
 
@@ -96,17 +105,19 @@ export default function Comments() {
                   <p className='grow'>{formatDate(comment.created_at)}</p>
                   <div className="actions flex gap-3">
                     {/* <button>Reply</button> */}
-                    <button onClick={() => handleReplyClick(comment.id)}>Reply</button>
                     {/* {isUpdateFormVisible && <CommentReplyForm commentId={comment.id} onUpdate={handleCommentsUpdated} />} */}
                     {/* <button>Delete</button> */}
                     {/* <Delete /> */}
+                    <button onClick={() => handleReplyClick(comment.id)}>Reply</button>
                     <button onClick={() => handleDeleteClick(comment.id)}>Delete</button>
                     {/* {isDeleteFormVisible && <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentDeleted} />} */}
                     {isDeleteFormVisible && activeCommentId === comment.id && (
                       <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentsUpdated} />
                     )}
 
-                    <button>Edit</button>
+                    <button onClick={() => handleEditClick(comment.id)}>Edit</button>
+
+                    {/* <button>Edit</button> */}
                   </div>
                 </div>
                 <div className='description'></div>
@@ -114,7 +125,8 @@ export default function Comments() {
               </div>
             </li>
             {isUpdateFormVisible && activeCommentId === comment.id && (
-              <CommentReplyForm commentId={comment.id} onUpdate={handleCommentsUpdated} commentRelatedId={comment.related_comment} />
+              // <CommentReplyForm commentId={comment.id} onUpdate={handleCommentsUpdated} commentRelatedId={comment.related_comment} editComment={comment} isEditing={isEditing} />
+              <CommentReplyForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} />
             )}
           </>
         ))}
