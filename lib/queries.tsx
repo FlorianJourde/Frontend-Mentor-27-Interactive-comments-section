@@ -48,3 +48,11 @@ export async function updateCommentLikes(likes: number, id: number): Promise<voi
     [likes, id]
   );
 }
+
+export async function deleteComment(id: number): Promise<void> {
+  await db.query(
+    // 'DELETE comments WHERE id = ?',
+    'DELETE FROM comments WHERE id = ?',
+    [id]
+  );
+}

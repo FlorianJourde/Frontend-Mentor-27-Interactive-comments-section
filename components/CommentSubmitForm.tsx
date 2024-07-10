@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function Textarea() {
+export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -25,26 +25,24 @@ export default function Textarea() {
         throw new Error('Failed to submit comment');
       }
 
-      const data = await response.json();
-
       setContent('');
       setAuthor('');
       setSuccess('Comment added successfully!');
+      onUpdate();
     } catch (error: any) {
       setError(error.message);
     }
   };
 
   return (
-
-    <form className='bg-white rounded-2xl p-5 flex gap-5' onSubmit={handleSubmit}>
+    <form className='bg-white rounded-2xl p-5 flex gap-5 items-start' onSubmit={handleSubmit}>
+      <div className="content flex flex-col gap-5 grow">
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
-      <div className="content flex flex-col gap-5 grow">
         <div>
-          <label htmlFor="author">Author</label>
+          {/* <label htmlFor="author">Author</label> */}
           <input
-
+          placeholder='Author'
             className='w-full border border-solid p-4 rounded-lg'
             type="text"
             id="author"
@@ -53,8 +51,10 @@ export default function Textarea() {
           />
         </div>
         <div>
-          <label htmlFor="content">Comment</label>
+          {/* <label htmlFor="content">Comment</label> */}
           <textarea
+                    placeholder='Comment'
+
             className='w-full border border-solid p-4 rounded-lg'
             id="content"
             value={content}
@@ -62,10 +62,7 @@ export default function Textarea() {
           />
         </div>
       </div>
-
       <button type="submit" className='bg-[#5358b6] p-5 rounded-lg text-white uppercase'>Submit</button>
     </form>
-
-
   )
 }
