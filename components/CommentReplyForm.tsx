@@ -81,7 +81,7 @@ export default function CommentReplyForm({
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
-        <button onClick={toggleFormVisibility} className='p-4 rounded-lg text-[#ee6368] border-2 border-[#ee6368] uppercase text-sm '>Close</button>
+        <button onClick={toggleFormVisibility} className='p-4 rounded-lg text-[#ee6368] border-2 border-[#ee6368] text-sm font-bold '>Close</button>
         <div>
           <textarea
             placeholder='Comment'
@@ -91,7 +91,7 @@ export default function CommentReplyForm({
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <button type="submit" className='bg-[#305f53] p-4 rounded-lg text-white uppercase  text-sm self-start'>
+        <button type="submit" className='bg-[#305f53] p-4 rounded-lg text-white  text-sm self-start font-bold'>
           {isEditing ? 'Update' : 'Reply'}
         </button>
       </div>

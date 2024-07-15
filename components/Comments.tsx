@@ -8,10 +8,14 @@ import CommentSubmitForm from './CommentSubmitForm';
 import CommentReplyForm from './CommentReplyForm';
 import DeleteForm from '@/components/DeleteForm';
 import { AuthContext } from '@/contexts/AuthorContext';
+import IconDelete from '@/public/assets/icons/icon-delete.svg'
+import IconEdit from '@/public/assets/icons/icon-edit.svg'
+import IconReply from '@/public/assets/icons/icon-reply.svg'
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [parentComments, setParentComments] = useState<Comment[]>([]);
+  const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
   const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -20,7 +24,6 @@ export default function Comments() {
   const [updateComments, setUpdateComments] = useState(false);
 
   const sessionId = useContext(AuthContext);
-
 
   useEffect(() => {
     fetch('/api/comments')
@@ -31,7 +34,6 @@ export default function Comments() {
       .catch((error) => console.error('Error fetching comments:', error));
 
   }, [updateComments]);
-
 
   const handleDeleteClick = (id: number) => {
     setCommentId(id);
@@ -74,10 +76,33 @@ export default function Comments() {
   };
 
   const updateLikes = async (commentId: number, currentLikes: number, buttonPressed: string) => {
+    const exists = likedComments.some(item => item.id === commentId);
+    const foundComments = comments.find(comment => comment.id === commentId);
+
+    if (!exists) {
+      const likedItems = {
+        ...foundComments,
+        initialLikes: currentLikes
+
+      };
+
+      setLikedComments([...likedComments, likedItems]);
+    }
+
+    const foundComment = likedComments.find(comment => comment.id === commentId);
+
     if (buttonPressed === '+') {
-      currentLikes++
+      if (!foundComment || currentLikes < foundComment.initialLikes + 1) {
+        currentLikes++
+      } else {
+        console.log('Vous avez déjà voté "+" pour ce commentaire !');
+      }
     } else {
-      currentLikes--
+      if (!foundComment || currentLikes > foundComment.initialLikes - 1) {
+        currentLikes--
+      } else {
+        console.log('Vous avez déjà voté "-" pour ce commentaire !');
+      }
     }
 
     const response = await fetch('/api/comments/[id]/likes', {
@@ -119,12 +144,23 @@ export default function Comments() {
                   <p>{comment.author}</p>
                   <p className='grow text-gray-500'>{formatDate(comment.created_at)}</p>
                   <div className="actions flex gap-3">
-                    <button onClick={() => handleReplyClick(comment.id)}>Reply</button>
-                    {sessionId === comment.session_id && (
-                      <button onClick={() => handleDeleteClick(comment.id)}>Delete</button>
+                    {sessionId !== comment.session_id && (
+                      <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleReplyClick(comment.id)}>
+                        <IconReply />
+                        Reply
+                      </button>
                     )}
                     {sessionId === comment.session_id && (
-                      <button onClick={() => handleEditClick(comment.id)}>Edit</button>
+                      <button className='flex gap-2 items-center text-[#ed6368] font-bold' onClick={() => handleDeleteClick(comment.id)}>
+                        <IconDelete />
+                        Delete
+                      </button>
+                    )}
+                    {sessionId === comment.session_id && (
+                      <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleEditClick(comment.id)}>
+                        <IconEdit />
+                        Edit
+                      </button>
                     )}
                   </div>
                 </div>

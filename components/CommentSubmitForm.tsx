@@ -63,7 +63,7 @@ export default function CommentSubmitForm({ onUpdate, sessionId }: { onUpdate: (
           />
         </div>
       </div>
-      <button type="submit" className='bg-[#305f53] p-5 rounded-lg text-white uppercase'>Submit</button>
+      <button type="submit" className='bg-[#305f53] p-5 rounded-lg text-white font-bold'>Submit</button>
     </form>
   )
 }
