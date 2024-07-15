@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 
-export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }) {
+export default function CommentSubmitForm({ onUpdate, sessionId }: { onUpdate: () => void, sessionId: string | null }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
+  const [session, setsession] = useState(sessionId);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -12,6 +13,8 @@ export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }
     setError(null);
     setSuccess(null);
 
+    console.log(sessionId);
+    console.log(session);
 
     try {
       const response = await fetch('/api/comments', {
@@ -19,7 +22,7 @@ export default function CommentSubmitForm({ onUpdate }: { onUpdate: () => void }
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content, author }),
+        body: JSON.stringify({ content, author, sessionId }),
       });
 
       if (!response.ok) {

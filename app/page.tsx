@@ -2,6 +2,8 @@
 
 import Background from '@/components/Background';
 import Comments from '@/components/Comments';
+import { AuthProvider } from '@/contexts/AuthorContext';
+
 
 export default function Home() {
   return (
@@ -9,7 +11,9 @@ export default function Home() {
       <Background />
       <main className='flex flex-col gap-12'>
         <div className='wrapper'>
-          <Comments />
+          <AuthProvider>
+            <Comments />
+          </AuthProvider>
         </div>
       </main>
     </>

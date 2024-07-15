@@ -1,11 +1,4 @@
-// import { db, dbInfos } from './db';
 import db from './db';
-// import mysql from 'mysql'
-// import mysql from 'mysql2'
-// import util from 'util'
-
-// const conn = mysql.createConnection(dbInfos);
-// const query = util.promisify(conn.query).bind(conn);
 
 export async function getComments() {
   try {
@@ -24,15 +17,15 @@ export async function getComments() {
   }
 }
 
-export async function insertComment(content: string, author: string, related_comment: number | null): Promise<void> {
+export async function insertComment(content: string, author: string, related_comment: number | null, session_id: string | null): Promise<void> {
   try {
     if (related_comment === undefined) {
       related_comment = null;
     }
 
     await db.query(
-      'INSERT INTO comments (description, author, created_at, related_comment) VALUES (?, ?, NOW(), ?)',
-      [content, author, related_comment]
+      'INSERT INTO comments (description, author, created_at, related_comment, session_id) VALUES (?, ?, NOW(), ?, ?)',
+      [content, author, related_comment, session_id]
     );
   } catch (error) {
     let errorMessage = "Error inserting comment";

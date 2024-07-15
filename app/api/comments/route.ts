@@ -11,7 +11,9 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const comment = await request.json();
-  insertComment(comment.content, comment.author, comment.commentId);
+  console.log(comment);
+  
+  insertComment(comment.content, comment.author, comment.commentId, comment.sessionId);
 
   return NextResponse.json(comment);
 }

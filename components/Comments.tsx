@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { useEffect, useState } from 'react';
 import { Comment } from '@/interfaces/comment';
@@ -7,6 +7,7 @@ import Delete from '@/components/DeleteForm';
 import CommentSubmitForm from './CommentSubmitForm';
 import CommentReplyForm from './CommentReplyForm';
 import DeleteForm from '@/components/DeleteForm';
+import { AuthContext } from '@/contexts/AuthorContext';
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -18,66 +19,19 @@ export default function Comments() {
   const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
   const [updateComments, setUpdateComments] = useState(false);
 
+  const sessionId = useContext(AuthContext);
+
+
   useEffect(() => {
     fetch('/api/comments')
       .then((response) => response.json())
       .then((data) => {
         setComments(data.comments)
-        // setParentComments(data.comments.id)
       })
       .catch((error) => console.error('Error fetching comments:', error));
 
-    // console.log(comments);
-    // fetch('/api/comments/[id]')
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     // setParentComments(data.comments)
-    //     console.log(data);
-
-    //   })
-    //   .catch((error) => console.error('Error fetching comments:', error));
-
-    // }, [updateComments]);
   }, [updateComments]);
 
-  // useEffect(() => {
-  //   // console.log(comments);
-
-  //   // getParentComment(comment.related_comment)}</p>
-  //   // comments.find(x => x.id === '45').foo;
-  //   // fetch(`/api/comments/${commentId}`)
-  //   //   .then((response) => response.json())
-  //   //   .then((data) => {
-  //   //     // console.log(data);
-  //   //     // setParentComments(data.comments)
-  //   //     // console.log(data);
-
-  //   //   })
-  //   //   .catch((error) => console.error('Error fetching comments:', error));
-
-
-  //   async function getParentComment(id: number) {
-  //     if (commentId === null) return;
-
-  //     try {
-  //       const response = await fetch(`/api/comments/${commentId}`, {
-  //         method: 'GET',
-  //         body: JSON.stringify({ commentId }),
-  //       });
-
-  //       // if (!response.ok) {
-  //       //   throw new Error('Failed to delete comment');
-  //       // }
-
-  //       // console.log('Comment deleted');
-  //       // onUpdate();
-  //       // onClose();
-  //     } catch (error: any) {
-  //       console.error('Error:', error);
-  //     }
-  //   };
-
-  // }, [comments]);
 
   const handleDeleteClick = (id: number) => {
     setCommentId(id);
@@ -101,7 +55,6 @@ export default function Comments() {
 
   const handleCommentsUpdated = () => {
     setUpdateComments((prev) => !prev);
-    // handleToggleFormVisibility()
   };
 
   function handleToggleFormVisibility() {
@@ -113,25 +66,11 @@ export default function Comments() {
     setCommentId(null);
   };
 
-  // function findParentComment(id: number | null) {
-  //   // console.log(id);
-  //   console.log('test');
-
-
-  //   // setParentComments(id)
-  // }
-
-
   const getParentComment = (relatedCommentId: number) => {
     if (relatedCommentId === null) return null;
-    // console.log(comments);
     const parentComment = comments.find(comment => comment.id === relatedCommentId)
-    // console.log(comments.find(comment => comment.id === relatedCommentId));
-
-    console.log(parentComment?.author);
 
     return parentComment?.author;
-    // return parentComments[relatedCommentId] || 'Loading...';
   };
 
   const updateLikes = async (commentId: number, currentLikes: number, buttonPressed: string) => {
@@ -181,22 +120,15 @@ export default function Comments() {
                   <p className='grow text-gray-500'>{formatDate(comment.created_at)}</p>
                   <div className="actions flex gap-3">
                     <button onClick={() => handleReplyClick(comment.id)}>Reply</button>
-                    <button onClick={() => handleDeleteClick(comment.id)}>Delete</button>
-                    <button onClick={() => handleEditClick(comment.id)}>Edit</button>
+                    {sessionId === comment.session_id && (
+                      <button onClick={() => handleDeleteClick(comment.id)}>Delete</button>
+                    )}
+                    {sessionId === comment.session_id && (
+                      <button onClick={() => handleEditClick(comment.id)}>Edit</button>
+                    )}
                   </div>
                 </div>
                 <div className='description'></div>
-                {/* <p>{getParentComment(comment.related_comment)}</p> */}
-                {/* <p>{comment.related_comment}</p> */}
-                {/* <p getParentComment={getParentComment(0)}>{comment.related_comment}</p> */}
-                {/* {comment.related_comment && (
-                <p>{getParentComment(comment.related_comment)}</p>
-                )} */}
-                {/* {comment.related_comment && (
-                  <p>{comment[comment.related_comment].description}</p>
-                )} */}
-                {/* <div findParentComment={(0)}>Bonjour</div> */}
-                {/* <p findParentComment={() => findParentComment(comment.related_comment)}></p> */}
                 <p>
                   {comment.related_comment && (
                     <span className='font-bold text-[#305f53]'>@{getParentComment(comment.related_comment)} </span>
@@ -205,7 +137,7 @@ export default function Comments() {
               </div>
             </li>
             {isUpdateFormVisible && activeCommentId === comment.id && (
-              <CommentReplyForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} toggleFormVisibility={handleToggleFormVisibility} />
+              <CommentReplyForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} toggleFormVisibility={handleToggleFormVisibility} sessionId={sessionId} />
             )}
             {isDeleteFormVisible && activeCommentId === comment.id && (
               <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentsUpdated} />
@@ -213,7 +145,7 @@ export default function Comments() {
           </>
         ))}
       </ul>
-      <CommentSubmitForm onUpdate={handleCommentsUpdated} />
+      <CommentSubmitForm onUpdate={handleCommentsUpdated} sessionId={sessionId} />
     </>
   )
 }

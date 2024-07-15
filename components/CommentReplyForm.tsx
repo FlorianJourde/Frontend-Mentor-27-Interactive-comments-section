@@ -5,12 +5,14 @@ export default function CommentReplyForm({
   onUpdate,
   comment,
   isEditing,
-  toggleFormVisibility
+  toggleFormVisibility,
+  sessionId
 }: {
   onUpdate: () => void,
   comment: Comment,
   isEditing: boolean,
   toggleFormVisibility: () => void,
+  sessionId: string | null
 }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
@@ -33,8 +35,6 @@ export default function CommentReplyForm({
     let commentId: number = comment.id;
 
     if (isEditing) {
-      // console.log('editing');
-
       const response = await fetch('/api/comments', {
         method: 'PUT',
         headers: {
@@ -47,7 +47,6 @@ export default function CommentReplyForm({
         throw new Error('Failed to edit comment');
       }
     } else {
-      // console.log('not editing');
       comment.related_comment ? commentId = comment.related_comment : commentId
 
       const response = await fetch('/api/comments', {
@@ -55,7 +54,7 @@ export default function CommentReplyForm({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content, author, commentId }),
+        body: JSON.stringify({ content, author, commentId, sessionId }),
       });
 
       if (!response.ok) {

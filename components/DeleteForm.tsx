@@ -15,7 +15,6 @@ export default function DeleteForm({ commentId, onClose, onUpdate }: { commentId
         throw new Error('Failed to delete comment');
       }
 
-      console.log('Comment deleted');
       onUpdate();
       onClose();
     } catch (error: any) {

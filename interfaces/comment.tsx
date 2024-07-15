@@ -6,4 +6,5 @@ export interface Comment {
   updated_at: string;
   likes: number;
   related_comment: number | null;
+  session_id: string | null;
 }
