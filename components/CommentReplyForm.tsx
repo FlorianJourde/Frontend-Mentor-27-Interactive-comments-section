@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react'
 export default function CommentReplyForm({
   onUpdate,
   comment,
-  isEditing
+  isEditing,
+  toggleFormVisibility
 }: {
   onUpdate: () => void,
   comment: Comment,
-  isEditing: boolean
+  isEditing: boolean,
+  toggleFormVisibility: () => void,
 }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
@@ -31,7 +33,7 @@ export default function CommentReplyForm({
     let commentId: number = comment.id;
 
     if (isEditing) {
-      console.log('editing');
+      // console.log('editing');
 
       const response = await fetch('/api/comments', {
         method: 'PUT',
@@ -45,7 +47,7 @@ export default function CommentReplyForm({
         throw new Error('Failed to edit comment');
       }
     } else {
-      console.log('not editing');
+      // console.log('not editing');
       comment.related_comment ? commentId = comment.related_comment : commentId
 
       const response = await fetch('/api/comments', {
@@ -62,14 +64,14 @@ export default function CommentReplyForm({
     }
 
     onUpdate();
-
+    toggleFormVisibility()
   };
 
   return (
-    <form className='bg-white rounded-2xl p-5 flex gap-5 items-start ml-20' onSubmit={handleSubmit}>
-      <div className="content flex flex-col gap-5 grow">
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
+    <form className='bg-white rounded-2xl p-5 flex gap-5 items-start ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10' onSubmit={handleSubmit}>
+      <div className="content grid grid-cols-[minmax(0,1fr)_minmax(0,auto)] gap-5 grow">
+        {error && <p className='text-red-700 col-span-2'>{error}</p>}
+        {success && <p className='text-green-700 col-span-2'>{success}</p>}
         <div>
           <input
             placeholder='Author'
@@ -79,8 +81,8 @@ export default function CommentReplyForm({
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
-          {/* {isEditing ? 'Update' : 'Reply'} */}
         </div>
+        <button onClick={toggleFormVisibility} className='p-4 rounded-lg text-[#ee6368] border-2 border-[#ee6368] uppercase text-sm '>Close</button>
         <div>
           <textarea
             placeholder='Comment'
@@ -90,10 +92,10 @@ export default function CommentReplyForm({
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
+        <button type="submit" className='bg-[#305f53] p-4 rounded-lg text-white uppercase  text-sm self-start'>
+          {isEditing ? 'Update' : 'Reply'}
+        </button>
       </div>
-      <button type="submit" className='bg-[#5358b6] p-5 rounded-lg text-white uppercase'>
-        {isEditing ? 'Update' : 'Reply'}
-      </button>
     </form>
   )
 }
