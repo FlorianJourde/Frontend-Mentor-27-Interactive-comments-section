@@ -11,10 +11,17 @@ import IconReply from '@/public/assets/icons/icon-reply.svg'
 import Image from 'next/image';
 import avatarsPath from './AvatarsPath';
 import CommentLikes from './CommentLikes';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CommentAnimation } from './Animations';
+import { Limelight } from "next/font/google";
+
+const limelight = Limelight({
+  weight: '400',
+  subsets: ['latin'],
+})
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
-  // const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
   const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,15 +87,16 @@ export default function Comments() {
   return (
     <>
       <header>
-        <h1 className='text-[100px] leading-none font-bold text-[#305f53]'>Webask</h1>
-        <h2 className='text-2xl font-semibold text-[#37967f]'>Ask questions about web development !</h2>
+        <h1 className={`${limelight.className} + text-[150px] leading-none font-bold text-[#305f53] text-center`}>Webask</h1>
+        {/* <h1 className={limelight.className}>Webask</h1> */}
+        <h2 className='text-2xl font-semibold text-[#37967f] text-center'>Ask questions about web development !</h2>
       </header>
       <ul className='flex flex-col gap-5'>
-        {comments.map((comment) => (
-          <>
-            <li key={`${comment.id}-${comment.author}`} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
+        {comments.map((comment, index) => (
+          <AnimatePresence mode='wait'>
+            <motion.li {...CommentAnimation(index)} key={`${comment.id}-${comment.author}`} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
 
-              <CommentLikes comment={comment}  comments={comments} setComments={setComments}/>
+              <CommentLikes comment={comment} comments={comments} setComments={setComments} />
 
               <div className='content flex flex-col gap-1'>
                 <div className="header flex gap-5 items-center">
@@ -125,14 +133,17 @@ export default function Comments() {
                   )}
                   {comment.description}</p>
               </div>
-            </li>
+
+            </motion.li>
+
             {isUpdateFormVisible && activeCommentId === comment.id && (
               <CommentForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} isReplying={isReplying} toggleFormVisibility={handleToggleFormVisibility} sessionId={sessionId} />
             )}
+
             {isDeleteFormVisible && activeCommentId === comment.id && (
-              <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentsUpdated} />
+              <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentsUpdated} isDeleteFormVisible={isDeleteFormVisible} />
             )}
-          </>
+          </AnimatePresence>
         ))}
       </ul>
 

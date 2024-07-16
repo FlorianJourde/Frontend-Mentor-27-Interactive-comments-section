@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Ubuntu_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const ubuntuMono = Ubuntu_Mono({ weight: ['400', '700'], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Webask",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} + min-h-svh bg-[#f5faf5] pt-24 pb-24 relative`}>{children}</body>
+      <body className={`${ubuntuMono.className} + min-h-svh bg-[#f5faf5] pt-24 pb-24 relative`}>{children}</body>
     </html>
   );
 }

@@ -1,6 +1,5 @@
 import { Comment } from '@/interfaces/Comment'
 import React, { useState } from 'react'
-// import { Comment } from '@/interfaces/Comment';
 
 export default function CommentLikes(
   { comment, comments, setComments }: { comment: Comment, comments: Comment[], setComments: React.Dispatch<React.SetStateAction<Comment[]>> }

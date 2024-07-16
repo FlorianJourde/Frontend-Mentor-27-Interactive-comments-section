@@ -1,6 +1,8 @@
 import { CommentForm } from '@/interfaces/CommentForm';
 import React, { useEffect, useState } from 'react'
 import Avatars from './Avatars';
+import { AnimatePresence, motion } from 'framer-motion';
+import { AvatarAnimation, FormAnimation } from './Animations';
 
 export default function CommentReplyForm(
   props: CommentForm
@@ -64,52 +66,57 @@ export default function CommentReplyForm(
     }
 
     onUpdate();
+
     if (toggleFormVisibility) {
-      toggleFormVisibility()
+    toggleFormVisibility()
     }
   };
 
   return (
-    <form className={`bg-white rounded-2xl p-5 flex gap-5 items-start relative  + ${isReplying && 'ml-20 before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10'}`} onSubmit={handleSubmit}>
-      <div className="content grid grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] gap-5 grow">
+    <AnimatePresence mode='wait'>
+      <motion.form  {...FormAnimation()} className={`bg-white rounded-2xl p-5 flex gap-5 items-start relative + ${isReplying && 'ml-20 before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10'}`} onSubmit={handleSubmit}>
+        <div className="content grid grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] gap-5 grow">
 
-        {error && <p className='text-red-700 col-span-2'>{error}</p>}
-        {success && <p className='text-green-700 col-span-2'>{success}</p>}
+          {error && <p className='text-red-700 col-span-2'>{error}</p>}
+          {success && <p className='text-green-700 col-span-2'>{success}</p>}
 
-        <div className='relative aspect-square'>
-          <Avatars avatarId={avatarId} setAvatarId={setAvatarId} />
+          <AnimatePresence mode='popLayout'>
+            <motion.div {...AvatarAnimation()} className='relative aspect-square' key={avatarId}>
+              <Avatars avatarId={avatarId} setAvatarId={setAvatarId} />
+            </motion.div>
+          </AnimatePresence>
+
+          <div className={`${!isReplying && 'col-span-2'}`}>
+            <input
+              placeholder='Author'
+              className='w-full border border-solid p-4 rounded-lg'
+              type="text"
+              id="author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+          </div>
+
+          {isReplying && (
+            <button onClick={toggleFormVisibility} className='p-4 rounded-lg text-[#ee6368] border-2 border-[#ee6368] text-sm font-bold '>Close</button>
+          )}
+
+          <div className='col-span-2'>
+            <textarea
+              placeholder='Comment'
+              className='w-full border border-solid p-4 rounded-lg'
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className='bg-[#305f53] p-4 rounded-lg text-white  text-sm self-start font-bold'>
+            {isEditing ? 'Update' : 'Reply'}
+          </button>
+
         </div>
-
-        <div className={`${!isReplying && 'col-span-2'}`}>
-          <input
-            placeholder='Author'
-            className='w-full border border-solid p-4 rounded-lg'
-            type="text"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </div>
-
-        {isReplying && (
-          <button onClick={toggleFormVisibility} className='p-4 rounded-lg text-[#ee6368] border-2 border-[#ee6368] text-sm font-bold '>Close</button>
-        )}
-
-        <div className='col-span-2'>
-          <textarea
-            placeholder='Comment'
-            className='w-full border border-solid p-4 rounded-lg'
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </div>
-
-        <button type="submit" className='bg-[#305f53] p-4 rounded-lg text-white  text-sm self-start font-bold'>
-          {isEditing ? 'Update' : 'Reply'}
-        </button>
-
-      </div>
-    </form>
+      </motion.form>
+    </AnimatePresence>
   )
 }
