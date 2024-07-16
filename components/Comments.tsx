@@ -10,10 +10,11 @@ import IconEdit from '@/public/assets/icons/icon-edit.svg'
 import IconReply from '@/public/assets/icons/icon-reply.svg'
 import Image from 'next/image';
 import avatarsPath from './AvatarsPath';
+import CommentLikes from './CommentLikes';
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
+  // const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
   const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -76,56 +77,6 @@ export default function Comments() {
     return parentComment?.author;
   };
 
-  const updateLikes = async (commentId: number, currentLikes: number, buttonPressed: string) => {
-    const exists = likedComments.some(item => item.id === commentId);
-    const foundComments = comments.find(comment => comment.id === commentId);
-
-    if (!exists) {
-      const likedItems = {
-        ...foundComments,
-        initialLikes: currentLikes
-      };
-
-      setLikedComments([...likedComments, likedItems]);
-    }
-
-    const foundComment = likedComments.find(comment => comment.id === commentId);
-
-
-    if (buttonPressed === '+') {
-      if (!foundComment || currentLikes < foundComment.initialLikes + 1) {
-        currentLikes++
-      } else {
-        console.log('Vous avez déjà voté "+" pour ce commentaire !');
-      }
-    } else {
-      if (currentLikes === 0) return false;
-      if (!foundComment || currentLikes > foundComment.initialLikes - 1) {
-        currentLikes--
-      } else {
-        console.log('Vous avez déjà voté "-" pour ce commentaire !');
-      }
-    }
-
-    const response = await fetch('/api/comments/[id]/likes', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ currentLikes, commentId }),
-    })
-
-    if (response.ok) {
-      setComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment.id === commentId ? { ...comment, likes: currentLikes } : comment
-        )
-      );
-    } else {
-      console.error('Failed to update likes');
-    }
-  };
-
   return (
     <>
       <header>
@@ -136,11 +87,9 @@ export default function Comments() {
         {comments.map((comment) => (
           <>
             <li key={`${comment.id}-${comment.author}`} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
-              <div className='likes flex flex-col bg-[#f5faf5] rounded-xl justify-center items-center p-3'>
-                <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '+')}>+</button>
-                <p className='font-bold text-[#305f53]'>{comment.likes}</p>
-                <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '-')}>-</button>
-              </div>
+
+              <CommentLikes comment={comment}  comments={comments} setComments={setComments}/>
+
               <div className='content flex flex-col gap-1'>
                 <div className="header flex gap-5 items-center">
 
