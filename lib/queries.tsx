@@ -38,11 +38,11 @@ export async function insertComment(content: string, author: string, related_com
   }
 }
 
-export async function editComment(content: string, author: string, id: number | null): Promise<void> {
+export async function editComment(content: string, author: string, id: number | null, avatar_id: number): Promise<void> {
   try {
     await db.query(
-      'UPDATE comments SET description = ?, author = ?, updated_at = NOW() WHERE id = ?',
-      [content, author, id]
+      'UPDATE comments SET description = ?, author = ?, updated_at = NOW(), avatar_id = ? WHERE id = ?',
+      [content, author, avatar_id, id]
     );
   } catch (error) {
     let errorMessage = "Error updating comment";

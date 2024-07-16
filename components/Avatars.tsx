@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import avatarsPath from './AvatarsPath';
 
 export default function Avatars({ avatarId, setAvatarId }: { avatarId: number, setAvatarId: React.Dispatch<React.SetStateAction<number>> }) {
+
   const handleAvatarChange = () => {
     if (avatarId === 24) {
       setAvatarId(1)

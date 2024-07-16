@@ -11,8 +11,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const comment = await request.json();
-  console.log(comment);
-  
+
   insertComment(comment.content, comment.author, comment.commentId, comment.sessionId, comment.avatarId);
 
   return NextResponse.json(comment);
@@ -20,7 +19,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const comment = await request.json();
-  editComment(comment.content, comment.author, comment.commentId);
+  editComment(comment.content, comment.author, comment.commentId, comment.avatarId);
 
   return NextResponse.json(comment);
 }

@@ -1,10 +1,8 @@
 import React, { useContext } from 'react'
-
 import { useEffect, useState } from 'react';
-import { Comment } from '@/interfaces/comment';
+import { Comment } from '@/interfaces/Comment';
 import { formatDate } from '@/lib/formatDate'
-import CommentSubmitForm from './CommentSubmitForm';
-import CommentReplyForm from './CommentReplyForm';
+import CommentForm from './CommentForm';
 import DeleteForm from '@/components/DeleteForm';
 import { AuthContext } from '@/contexts/AuthorContext';
 import IconDelete from '@/public/assets/icons/icon-delete.svg'
@@ -15,15 +13,14 @@ import avatarsPath from './AvatarsPath';
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [parentComments, setParentComments] = useState<Comment[]>([]);
   const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
   const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
   const [commentId, setCommentId] = useState<number | null>(null);
   const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
   const [updateComments, setUpdateComments] = useState(false);
-
   const sessionId = useContext(AuthContext);
 
   useEffect(() => {
@@ -46,6 +43,7 @@ export default function Comments() {
     setCommentId(id);
     setIsUpdateFormVisible(true);
     setIsEditing(false);
+    setIsReplying(true)
     setActiveCommentId(id);
   };
 
@@ -53,6 +51,7 @@ export default function Comments() {
     setCommentId(id);
     setIsUpdateFormVisible(true);
     setIsEditing(true);
+    setIsReplying(true)
     setActiveCommentId(id);
   };
 
@@ -62,6 +61,7 @@ export default function Comments() {
 
   function handleToggleFormVisibility() {
     setIsUpdateFormVisible((prev) => !prev);
+    setIsReplying(true)
   }
 
   const handleCloseForm = () => {
@@ -84,13 +84,13 @@ export default function Comments() {
       const likedItems = {
         ...foundComments,
         initialLikes: currentLikes
-
       };
 
       setLikedComments([...likedComments, likedItems]);
     }
 
     const foundComment = likedComments.find(comment => comment.id === commentId);
+
 
     if (buttonPressed === '+') {
       if (!foundComment || currentLikes < foundComment.initialLikes + 1) {
@@ -99,6 +99,7 @@ export default function Comments() {
         console.log('Vous avez déjà voté "+" pour ce commentaire !');
       }
     } else {
+      if (currentLikes === 0) return false;
       if (!foundComment || currentLikes > foundComment.initialLikes - 1) {
         currentLikes--
       } else {
@@ -177,7 +178,7 @@ export default function Comments() {
               </div>
             </li>
             {isUpdateFormVisible && activeCommentId === comment.id && (
-              <CommentReplyForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} toggleFormVisibility={handleToggleFormVisibility} sessionId={sessionId} />
+              <CommentForm comment={comment} onUpdate={handleCommentsUpdated} isEditing={isEditing} isReplying={isReplying} toggleFormVisibility={handleToggleFormVisibility} sessionId={sessionId} />
             )}
             {isDeleteFormVisible && activeCommentId === comment.id && (
               <DeleteForm commentId={comment.id} onClose={handleCloseForm} onUpdate={handleCommentsUpdated} />
@@ -185,7 +186,8 @@ export default function Comments() {
           </>
         ))}
       </ul>
-      <CommentSubmitForm onUpdate={handleCommentsUpdated} sessionId={sessionId} />
+
+      <CommentForm onUpdate={handleCommentsUpdated} sessionId={sessionId} isReplying={false} />
     </>
   )
 }
