@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { useEffect, useState } from 'react';
 import { Comment } from '@/interfaces/comment';
 import { formatDate } from '@/lib/formatDate'
-import Delete from '@/components/DeleteForm';
 import CommentSubmitForm from './CommentSubmitForm';
 import CommentReplyForm from './CommentReplyForm';
 import DeleteForm from '@/components/DeleteForm';
@@ -143,7 +142,6 @@ export default function Comments() {
               </div>
               <div className='content flex flex-col gap-1'>
                 <div className="header flex gap-5 items-center">
-                  {/* <img src="" alt="" /> */}
 
                   <Image src={avatarsPath[comment.avatar_id]} alt="" className='rounded-full w-8' />
 

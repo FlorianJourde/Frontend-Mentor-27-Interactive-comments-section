@@ -4,9 +4,7 @@ import Avatars from './Avatars';
 export default function CommentSubmitForm({ onUpdate, sessionId }: { onUpdate: () => void, sessionId: string | null }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
-  // const [session, setSession] = useState(sessionId);
   const [avatarId, setAvatarId] = useState<number>(1);
-  // const [session, setSession] = useState(sessionId);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -15,10 +13,6 @@ export default function CommentSubmitForm({ onUpdate, sessionId }: { onUpdate: (
 
     setError(null);
     setSuccess(null);
-
-    // console.log(sessionId);
-    // console.log(session);
-    console.log(avatarId);
 
     try {
       const response = await fetch('/api/comments', {
@@ -42,39 +36,19 @@ export default function CommentSubmitForm({ onUpdate, sessionId }: { onUpdate: (
     }
   };
 
-  // useEffect(() => {
-  //   console.log(avatarId);
-  //   // first
 
-  //   // return () => {
-  //   //   second
-  //   // }
-  // }, [avatarId])
 
 
   return (
     <form className='bg-white rounded-2xl p-5 flex gap-5 items-start' onSubmit={handleSubmit}>
-      {/* <div className="content flex flex-col gap-5 grow"> */}
       <div className="content grid grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] gap-5 grow">
 
         {error && <p className='text-red-700 col-span-3'>{error}</p>}
         {success && <p className='text-green-700 col-span-3'>{success}</p>}
-        {/* <div> */}
 
         <div className='relative aspect-square'>
-          {/* <Avatars avatarId={avatarId} setAvatarId={() => setAvatarId(avatarId)} /> */}
           <Avatars avatarId={avatarId} setAvatarId={setAvatarId} />
         </div>
-
-        {/* <input
-            placeholder='Author'
-            className='w-full border border-solid p-4 rounded-lg'
-            type="text"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          /> */}
-        {/* </div> */}
         <div className='col-span-2'>
           <input
             placeholder='Author'
