@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   const comment = await request.json();
   console.log(comment);
   
-  insertComment(comment.content, comment.author, comment.commentId, comment.sessionId);
+  insertComment(comment.content, comment.author, comment.commentId, comment.sessionId, comment.avatarId);
 
   return NextResponse.json(comment);
 }

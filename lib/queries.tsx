@@ -17,15 +17,15 @@ export async function getComments() {
   }
 }
 
-export async function insertComment(content: string, author: string, related_comment: number | null, session_id: string | null): Promise<void> {
+export async function insertComment(content: string, author: string, related_comment: number | null, session_id: string | null, avatar_id: number): Promise<void> {
   try {
     if (related_comment === undefined) {
       related_comment = null;
     }
 
     await db.query(
-      'INSERT INTO comments (description, author, created_at, related_comment, session_id) VALUES (?, ?, NOW(), ?, ?)',
-      [content, author, related_comment, session_id]
+      'INSERT INTO comments (description, author, created_at, related_comment, session_id, avatar_id) VALUES (?, ?, NOW(), ?, ?, ?)',
+      [content, author, related_comment, session_id, avatar_id]
     );
   } catch (error) {
     let errorMessage = "Error inserting comment";

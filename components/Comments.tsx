@@ -11,6 +11,8 @@ import { AuthContext } from '@/contexts/AuthorContext';
 import IconDelete from '@/public/assets/icons/icon-delete.svg'
 import IconEdit from '@/public/assets/icons/icon-edit.svg'
 import IconReply from '@/public/assets/icons/icon-reply.svg'
+import Image from 'next/image';
+import avatarsPath from './AvatarsPath';
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -139,8 +141,12 @@ export default function Comments() {
                 <p className='font-bold text-[#305f53]'>{comment.likes}</p>
                 <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '-')}>-</button>
               </div>
-              <div className='content'>
-                <div className="header flex gap-5">
+              <div className='content flex flex-col gap-1'>
+                <div className="header flex gap-5 items-center">
+                  {/* <img src="" alt="" /> */}
+
+                  <Image src={avatarsPath[comment.avatar_id]} alt="" className='rounded-full w-8' />
+
                   <p>{comment.author}</p>
                   <p className='grow text-gray-500'>{formatDate(comment.created_at)}</p>
                   <div className="actions flex gap-3">
