@@ -108,7 +108,7 @@ export default function Comments() {
       <ul className='flex flex-col gap-5'>
         {comments.map((comment, index) => (
           <AnimatePresence mode='wait' key={`${comment.id}-${comment.author}`}>
-            <motion.li {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
+            <motion.li {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
 
               <CommentLikes comment={comment} comments={comments} setComments={setComments} />
 
