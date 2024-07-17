@@ -1,24 +1,33 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext<string>('');
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  function getSessionId() {
-    let sessionId = localStorage.getItem('sessionId');
+  const [sessionId, setSessionId] = useState<string>('');
 
-    if (!sessionId) {
-      sessionId = generateUniqueId();
-      localStorage.setItem('sessionId', sessionId);
-    }
+  useEffect(() => {
+    const getSessionId = () => {
+      if (typeof window !== 'undefined') {
+        let sessionId = localStorage.getItem('sessionId');
 
-    return sessionId;
-  }
+        if (!sessionId) {
+          sessionId = generateUniqueId();
+          localStorage.setItem('sessionId', sessionId);
+        }
 
-  function generateUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36);
-  }
+        return sessionId;
+      }
 
-  const sessionId = getSessionId();
+      return '';
+    };
+
+    const generateUniqueId = () => {
+      return Date.now().toString(36) + Math.random().toString(36);
+    };
+
+    const id = getSessionId();
+    setSessionId(id);
+  }, []);
 
   return (
     <AuthContext.Provider value={sessionId}>

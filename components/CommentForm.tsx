@@ -34,7 +34,7 @@ export default function CommentReplyForm(
       setAvatarId(comment?.avatar_id)
     }
 
-  }, [isEditing])
+  }, [isEditing, comment?.avatar_id])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

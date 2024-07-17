@@ -22,8 +22,8 @@ export default function DeleteForm({ commentId, handleCloseModal, onUpdate }: { 
 
       onUpdate();
       handleCloseModal();
-    } catch (error: any) {
-      console.error('Error:', error);
+    } catch (error) {
+      console.error('Failed to delete comment');
     }
   };
 
@@ -33,7 +33,7 @@ export default function DeleteForm({ commentId, handleCloseModal, onUpdate }: { 
         <motion.div {...ModalAnimation()} className='overlay z-50 fixed top-0 left-0 w-full h-full bg-[hsl(0deg_0%_0%_/_25%)]'>
           <div className={`absolute w-[calc(100%-40px)] md:w-full max-w-[400px] bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl p-8 flex flex-col gap-5 delay-500 transition-all}`}>
             <h1 className='font-bold'>Delete comment ?</h1>
-            <p>Are you sure you want to delete this comment ? This will remove and can't be undone</p>
+            <p>Are you sure you want to delete this comment ? This will remove and can&apos;t be undone</p>
             <div className="delete-action flex gap-5">
 
               <button onClick={handleCloseModal} className='grow p-3 rounded-md bg-[#68717e] text-white flex gap-2 justify-center items-center'>
