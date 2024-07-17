@@ -122,7 +122,7 @@ export default function CommentReplyForm(
             {isEditing ? (
               <>
                 <IconUpdate className='w-3' />
-                <span className='hidden md:block'>Update</span>
+                <span className='hidden md:block'>Actualiser</span>
               </>
             ) : (
               <>

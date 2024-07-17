@@ -33,7 +33,7 @@ export default function DeleteForm({ commentId, handleCloseModal, onUpdate }: { 
         <motion.div {...ModalAnimation()} className='overlay z-50 fixed top-0 left-0 w-full h-full bg-[hsl(0deg_0%_0%_/_50%)]'>
           <div className={`absolute w-[calc(100%-40px)] md:w-full max-w-[400px] bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl p-8 flex flex-col gap-5`}>
             <h2 className='font-bold text-xl'>Supprimer le commentaire ?</h2>
-            <p>Êtes-vous sûr de vouloir supprimer ce commentaire ? Cette opération ne pourra pas être annulée.</p>
+            <p>Êtes-vous sûr de vouloir supprimer ce commentaire ? Cette opération est irréversible.</p>
             <div className="delete-action flex gap-5">
 
               <button onClick={handleCloseModal} className='grow p-3 rounded-md bg-[#68717e] text-white flex gap-2 justify-center items-center'>
