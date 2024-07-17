@@ -11,7 +11,7 @@ import IconReply from '@/public/assets/icons/icon-reply.svg'
 import Image from 'next/image';
 import avatarsPath from './AvatarsPath';
 import CommentLikes from './CommentLikes';
-import { AnimatePresence, delay, motion, useAnimation, useInView } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { CommentAnimation } from './Animations';
 import { Limelight } from "next/font/google";
 
@@ -50,7 +50,6 @@ export default function Comments() {
 
       setTimeout(() => {
         setIsCommentsLoading(false)
-
       }, totalDelay);
     }
   }, [comments]);
@@ -82,7 +81,6 @@ export default function Comments() {
     setUpdateComments((prev) => !prev);
   };
 
-
   const handleCloseModal = () => {
     setIsDeleteModalVisible(false);
   }
@@ -105,7 +103,7 @@ export default function Comments() {
     <>
       <header>
         <h1 className={`${limelight.className} + text-6xl sm:text-[80px] md:text-[150px] leading-none font-bold text-[#305f53] text-center`}>Webask</h1>
-        <h2 className='text-2xl font-semibold text-[#37967f] text-center'>Ask questions about web development !</h2>
+        <h2 className='text-2xl font-semibold text-[#37967f] text-center'>Renseigne-toi sur le développement web !</h2>
       </header>
       <ul className='flex flex-col gap-5'>
         {comments.map((comment, index) => (
@@ -120,7 +118,7 @@ export default function Comments() {
                   <Image src={avatarsPath[comment.avatar_id]} alt="" className='rounded-full w-8' />
 
                   <div className="author-date flex flex-col sm:flex-row gap-1 md:gap-3 grow">
-                    <p>{comment.author}</p>
+                    <p className='font-bold'>{comment.author}</p>
                     <p className='grow text-gray-500'>{formatDate(comment.created_at)}</p>
                   </div>
                   <div className="actions flex flex-col sm:flex-row gap-5">
@@ -128,7 +126,7 @@ export default function Comments() {
                       <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleReplyClick(comment.id)}>
                         <IconReply />
                         <span className='hidden md:block'>
-                          Reply
+                          Répondre
                         </span>
                       </button>
                     )}
@@ -136,7 +134,7 @@ export default function Comments() {
                       <button className='flex gap-2 items-center text-[#ed6368] font-bold' onClick={() => handleDeleteClick(comment.id)}>
                         <IconDelete />
                         <span className='hidden md:block'>
-                          Delete
+                          Supprimer
                         </span>
                       </button>
                     )}
@@ -144,7 +142,7 @@ export default function Comments() {
                       <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleEditClick(comment.id)}>
                         <IconEdit />
                         <span className='hidden md:block'>
-                          Edit
+                          Éditer
                         </span>
                       </button>
                     )}

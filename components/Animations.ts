@@ -22,3 +22,9 @@ export const ModalAnimation = () => ({
   animate: { opacity: 1 },
   exit: { opacity: 0 },
 })
+
+export const LikesAnimation = (voteType: number[]) => ({
+  initial: { opacity: 0, y: voteType[0] },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: voteType[1] },
+})

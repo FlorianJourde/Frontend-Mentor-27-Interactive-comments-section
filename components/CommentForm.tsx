@@ -92,7 +92,7 @@ export default function CommentReplyForm(
 
           <div className={`${!isReplying && 'col-span-2'}`}>
             <input
-              placeholder='Author'
+              placeholder='Auteur'
               className='w-full border border-solid p-4 rounded-lg'
               type="text"
               id="author"
@@ -104,13 +104,13 @@ export default function CommentReplyForm(
           {isReplying && (
             <button onClick={closeForm} className='rounded-lg text-[#ee6368] text-sm font-bold flex gap-2 justify-center items-center'>
               <IconClose className='w-3' />
-              <span className='hidden md:block'>Close</span>
+              <span className='hidden md:block'>Fermer</span>
             </button>
           )}
 
           <div className='col-span-2'>
             <textarea
-              placeholder='Comment'
+              placeholder='Commentaire'
               className='w-full border border-solid p-4 rounded-lg'
               id="content"
               value={content}
@@ -127,7 +127,7 @@ export default function CommentReplyForm(
             ) : (
               <>
                 <IconReplyWhite className='w-3' />
-                <span className='hidden md:block'>{isReplying ? 'Reply' : 'Submit'}</span>
+                <span className='hidden md:block'>{isReplying ? 'Répondre' : 'Envoyer'}</span>
               </>
             )}
           </button>

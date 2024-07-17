@@ -6,7 +6,7 @@ const ubuntuMono = Ubuntu_Mono({ weight: ['400', '700'], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Webask",
-  description: "Ask questions about web development",
+  description: "Renseigne-toi sur le développement web !",
 };
 
 export default function RootLayout({

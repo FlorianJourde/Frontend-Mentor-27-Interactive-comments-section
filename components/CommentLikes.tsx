@@ -1,11 +1,13 @@
 import { Comment } from '@/interfaces/Comment'
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react'
+import { LikesAnimation } from './Animations';
 
 export default function CommentLikes(
   { comment, comments, setComments }: { comment: Comment, comments: Comment[], setComments: React.Dispatch<React.SetStateAction<Comment[]>> }
 ) {
   const [likedComments, setLikedComments] = useState<{ [key: string]: any }[]>([]);
-
+  const [isLikeUpvote, setIsLikeUpvote] = useState(false)
 
   const updateLikes = async (commentId: number, currentLikes: number, buttonPressed: string) => {
     const exists = likedComments.some(item => item.id === commentId);
@@ -22,10 +24,10 @@ export default function CommentLikes(
 
     const foundComment = likedComments.find(comment => comment.id === commentId);
 
-
     if (buttonPressed === '+') {
       if (!foundComment || currentLikes < foundComment.initialLikes + 1) {
         currentLikes++
+        setIsLikeUpvote(true)
       } else {
         console.log('Vous avez déjà voté "+" pour ce commentaire !');
       }
@@ -33,6 +35,7 @@ export default function CommentLikes(
       if (currentLikes === 0) return false;
       if (!foundComment || currentLikes > foundComment.initialLikes - 1) {
         currentLikes--
+        setIsLikeUpvote(false)
       } else {
         console.log('Vous avez déjà voté "-" pour ce commentaire !');
       }
@@ -61,7 +64,9 @@ export default function CommentLikes(
     <>
       <div className='likes flex flex-col bg-[#f5faf5] rounded-xl justify-center items-center p-3'>
         <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '+')}>+</button>
-        <p className='font-bold text-[#305f53]'>{comment.likes}</p>
+        <AnimatePresence mode='wait'>
+          <motion.p {...LikesAnimation(isLikeUpvote ? [-5, 5] : [5, -5])} className='font-bold text-[#305f53]' key={comment.likes}>{comment.likes}</motion.p>
+        </AnimatePresence>
         <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '-')}>-</button>
       </div>
     </>
