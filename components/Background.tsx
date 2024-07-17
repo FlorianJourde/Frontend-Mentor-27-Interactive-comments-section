@@ -1,11 +1,11 @@
 import React from 'react'
-import Abstract1 from '@/public/assets/abstract-1.svg';
-import Abstract2 from '@/public/assets/abstract-2.svg';
-import Abstract3 from '@/public/assets/abstract-3.svg';
-import Leaf1 from '@/public/assets/leaf-1.svg';
-import Leaf4 from '@/public/assets/leaf-4.svg';
-import Leaf6 from '@/public/assets/leaf-6.svg';
-import Leaf7 from '@/public/assets/leaf-7.svg';
+import Abstract1 from '@/public/assets/abstract/abstract-1.svg';
+import Abstract2 from '@/public/assets/abstract/abstract-2.svg';
+import Abstract3 from '@/public/assets/abstract/abstract-3.svg';
+import Leaf1 from '@/public/assets/leaves/leaf-1.svg';
+import Leaf4 from '@/public/assets/leaves/leaf-4.svg';
+import Leaf6 from '@/public/assets/leaves/leaf-6.svg';
+import Leaf7 from '@/public/assets/leaves/leaf-7.svg';
 
 export default function Background() {
   return (

@@ -6,5 +6,5 @@ export interface CommentForm {
   comment?: Comment,
   isEditing?: boolean,
   isReplying?: boolean,
-  toggleFormVisibility?: () => void
+  closeForm?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

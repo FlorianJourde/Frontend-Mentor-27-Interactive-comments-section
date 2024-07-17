@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Background />
-      <main className='flex flex-col gap-12'>
+      <main className='flex flex-col gap-12 break-words'>
         <div className='wrapper'>
           <AuthProvider>
             <Comments />

@@ -1,8 +1,8 @@
-export const CommentAnimation = (index: number) => ({
+export const CommentAnimation = (delay: number) => ({
   initial: { opacity: 0, y: 100 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0 },
-  transition: { delay: (index * .1) }
+  transition: { delay: delay }
 });
 
 export const FormAnimation = () => ({
