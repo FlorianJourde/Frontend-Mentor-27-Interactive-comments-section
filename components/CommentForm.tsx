@@ -36,11 +36,6 @@ export default function CommentReplyForm(
 
   }, [isEditing])
 
-  useEffect(() => {
-    console.log(isEditing);
-
-  }, [])
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
