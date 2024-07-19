@@ -76,7 +76,7 @@ export default function CommentReplyForm(
 
   return (
     <>
-      <motion.form {...FormAnimation()} className={`bg-white rounded-2xl p-5 flex gap-5 items-start relative + ${isReplying && 'ml-5 md:ml-20 before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10'}`} onSubmit={handleSubmit}>
+      <motion.form {...FormAnimation()} className={`bg-white rounded-2xl p-5 flex gap-5 items-start relative + ${isReplying && 'ml-5 md:ml-20 before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10'}`} onSubmit={handleSubmit}>
         <div className="content grid grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] gap-5 grow">
 
           {error && <p className='text-red-700 col-span-2'>{error}</p>}
