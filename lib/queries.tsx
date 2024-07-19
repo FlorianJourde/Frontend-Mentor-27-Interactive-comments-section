@@ -3,11 +3,26 @@ import db from './db';
 export async function getComments() {
   try {
     const [results] = await db.query(`
+      WITH RECURSIVE comment_hierarchy AS (
+          SELECT
+              *,
+              id AS root_id,
+              1 AS level
+          FROM comments
+          WHERE related_comment IS NULL
+
+          UNION ALL
+
+          SELECT
+              c.*,
+              ch.root_id,
+              ch.level + 1 AS level
+          FROM comments c
+          JOIN comment_hierarchy ch ON c.related_comment = ch.id
+      )
       SELECT *
-      FROM comments
-      ORDER BY 
-        CASE WHEN related_comment IS NOT NULL THEN related_comment ELSE id END,
-        id;
+      FROM comment_hierarchy
+      ORDER BY root_id, level, id;
     `);
 
     return results;

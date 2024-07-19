@@ -108,7 +108,7 @@ export default function Comments() {
       <ul className='flex flex-col gap-5'>
         {comments.map((comment, index) => (
           <AnimatePresence mode='wait' key={`${comment.id}-${comment.author}`}>
-            <motion.li {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm  + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
+            <motion.li layout {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm items + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
 
               <CommentLikes comment={comment} comments={comments} setComments={setComments} />
 
@@ -116,12 +116,16 @@ export default function Comments() {
                 <div className="header flex gap-5 items-center flex-wrap">
 
                   <Image src={avatarsPath[comment.avatar_id]} alt="" className='rounded-full w-8' />
-
                   <div className="author-date flex flex-col sm:flex-row gap-1 md:gap-3 grow">
-                    <p className='font-bold'>{comment.author}</p>
+                    {comment.author ? (
+                      <p className='font-bold'>{comment.author}</p>
+                    ) : (
+                      <p className='font-bold text-gray-500'>Anonyme</p>
+                    )}
                     <p className='grow text-gray-500'>{formatDate(comment.created_at)}</p>
                   </div>
                   <div className="actions flex flex-col sm:flex-row gap-5">
+
                     {sessionId !== comment.session_id && (
                       <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleReplyClick(comment.id)}>
                         <IconReply />
@@ -130,6 +134,7 @@ export default function Comments() {
                         </span>
                       </button>
                     )}
+
                     {sessionId === comment.session_id && (
                       <button className='flex gap-2 items-center text-[#ed6368] font-bold' onClick={() => handleDeleteClick(comment.id)}>
                         <IconDelete />
@@ -138,6 +143,7 @@ export default function Comments() {
                         </span>
                       </button>
                     )}
+
                     {sessionId === comment.session_id && (
                       <button className='flex gap-2 items-center text-[#305f53] font-bold' onClick={() => handleEditClick(comment.id)}>
                         <IconEdit />
@@ -146,16 +152,16 @@ export default function Comments() {
                         </span>
                       </button>
                     )}
+
                   </div>
                 </div>
-                <div className='description'></div>
                 <p>
                   {comment.related_comment && (
                     <span className='font-bold text-[#305f53]'>@{getParentComment(comment.related_comment)} </span>
                   )}
                   {comment.description}</p>
               </div>
-
+              
             </motion.li>
 
             {isReplyFormVisible && activeCommentId === comment.id && (
@@ -169,7 +175,9 @@ export default function Comments() {
         ))}
       </ul>
 
-      <CommentForm onUpdate={handleCommentsUpdated} sessionId={sessionId} isReplying={false} />
+      <AnimatePresence mode='wait'>
+        <CommentForm onUpdate={handleCommentsUpdated} sessionId={sessionId} isReplying={false} />
+      </AnimatePresence>
     </>
   )
 }

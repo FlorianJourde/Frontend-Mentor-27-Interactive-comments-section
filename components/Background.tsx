@@ -10,7 +10,7 @@ import Leaf7 from '@/public/assets/leaves/leaf-7.svg';
 export default function Background() {
   return (
     <>
-      <div className="background absolute w-full h-full top-0 left-0 overflow-hidden">
+      <div className="background absolute w-full h-full top-0 left-0 overflow-hidden bg-[url('/assets/patterns/dot-pattern.png')] bg-[length:100px_100px] bg-repeat bg-center">
         <Abstract1 className='absolute w-[1000px] top-12 left-[calc(50%-500px)]  fill-[#ddf3ec]' />
         <Abstract2 className='absolute w-[900px] -bottom-12 left-[calc(50%-500px)]   fill-[#ddf3ec]' />
         <Abstract3 className='absolute w-[400px] top-[calc(40%)] left-[calc(50%-600px)]  fill-[#ddf3ec]' />

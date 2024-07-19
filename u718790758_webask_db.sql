@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 juil. 2024 à 22:50
+-- Généré le : ven. 19 juil. 2024 à 17:22
 -- Version du serveur : 10.11.8-MariaDB-cll-lve
 -- Version de PHP : 7.2.34
 
@@ -44,18 +44,22 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `author`, `description`, `created_at`, `updated_at`, `likes`, `related_comment`, `session_id`, `avatar_id`) VALUES
-(288, 'SQLMaster42', 'Je rencontre des performances lentes avec mes requêtes SQL. Comment puis-je optimiser une requête SELECT complexe pour améliorer les temps de réponse ?', '2024-07-17 22:35:54', NULL, 2, NULL, 'lyqebe2k0.w1mclup141o', 16),
-(289, 'IndexGuru', 'Assurez-vous d\'indexer correctement les colonnes utilisées dans les clauses WHERE et JOIN pour réduire le temps de recherche.', '2024-07-17 22:37:17', NULL, 1, 288, 'lyqf8k0w0.i4krbuqmmr', 22),
-(290, 'QueryAnalyzer', 'Utilisez EXPLAIN pour analyser l\'exécution de la requête et identifier les points d\'amélioration.', '2024-07-17 22:37:35', NULL, 0, 288, 'lyqf8k0w0.i4krbuqmmr', 21),
-(291, 'SubQuerySensei', 'Divisez les requêtes complexes en sous-requêtes ou utilisez des vues matérialisées pour pré-calculer les résultats.', '2024-07-17 22:39:43', NULL, 2, 288, 'lyqf8k0w0.i4krbuqmmr', 2),
-(292, 'NextJSNinja', 'Je débute avec Next.js et je veux comprendre la différence entre getStaticProps et getServerSideProps. Quand devrais-je utiliser l\'un plutôt que l\'autre ?', '2024-07-17 22:39:59', NULL, 0, NULL, 'lyqf8k0w0.i4krbuqmmr', 4),
-(293, 'StaticSage', 'getStaticProps est idéal pour le pré-rendu statique lorsqu\'une page ne dépend pas de données en temps réel.', '2024-07-17 22:40:55', NULL, 2, 292, 'lyqebe2k0.w1mclup141o', 5),
-(295, 'ServerSideSamurai', 'getServerSideProps est utile pour le rendu côté serveur lorsque vous avez besoin de données dynamiques à chaque demande.', '2024-07-17 22:41:19', '2024-07-17 22:41:54', 0, 292, 'lyqebe2k0.w1mclup141o', 8),
-(298, 'WebDevExplorer', 'Je rencontre des problèmes de mise en page avec CSS Grid. Comment puis-je aligner correctement mes éléments sur une grille complexe ?', '2024-07-17 22:43:54', NULL, 1, NULL, 'lyqebe2k0.w1mclup141o', 11),
+(288, 'SQLMaster42', 'Je rencontre des performances lentes avec mes requêtes SQL. Comment puis-je optimiser une requête SELECT complexe pour améliorer les temps de réponse ?', '2024-07-17 22:35:54', NULL, 6, NULL, 'lyqdazqm0.44df2rrwhci', 16),
+(289, 'IndexGuru', 'Assurez-vous d\'indexer correctement les colonnes utilisées dans les clauses WHERE et JOIN pour réduire le temps de recherche.', '2024-07-17 22:37:17', NULL, 4, 288, 'lyqf8k0w0.i4krbuqmmr', 22),
+(290, 'QueryAnalyzer', 'Utilisez EXPLAIN pour analyser l\'exécution de la requête et identifier les points d\'amélioration.', '2024-07-17 22:37:35', NULL, 2, 288, 'lyqf8k0w0.i4krbuqmmr', 21),
+(291, 'SubQuerySensei', 'Divisez les requêtes complexes en sous-requêtes ou utilisez des vues matérialisées pour pré-calculer les résultats.', '2024-07-17 22:39:43', NULL, 5, 288, 'lyqf8k0w0.i4krbuqmmr', 2),
+(292, 'NextJSNinja', 'Je débute avec Next.js et je veux comprendre la différence entre getStaticProps et getServerSideProps. Quand devrais-je utiliser l\'un plutôt que l\'autre ?', '2024-07-17 22:39:59', NULL, 2, NULL, 'lyqf8k0w0.i4krbuqmmr', 4),
+(293, 'StaticSage', 'getStaticProps est idéal pour le pré-rendu statique lorsqu\'une page ne dépend pas de données en temps réel.', '2024-07-17 22:40:55', NULL, 6, 292, 'lyqebe2k0.w1mclup141o', 5),
+(295, 'ServerSideSamurai', 'getServerSideProps est utile pour le rendu côté serveur lorsque vous avez besoin de données dynamiques à chaque demande.', '2024-07-17 22:41:19', '2024-07-17 22:41:54', 1, 292, 'lyqebe2k0.w1mclup141o', 8),
+(298, 'WebDevExplorer', 'Je rencontre des problèmes de mise en page avec CSS Grid. Comment puis-je aligner correctement mes éléments sur une grille complexe ?', '2024-07-17 22:43:54', NULL, 2, NULL, 'lyqebe2k0.w1mclup141o', 11),
 (299, 'FlexFox', 'Explorez les fractions de grille, les zones nommées et les propriétés minmax().', '2024-07-17 22:44:18', NULL, 1, 298, 'lyqf8k0w0.i4krbuqmmr', 12),
-(300, 'DeployDev', 'Comment déployer une application Node.js sur un serveur VPS ?', '2024-07-17 22:45:03', NULL, 1, NULL, 'lyqf8k0w0.i4krbuqmmr', 23),
-(301, 'ServerSage', 'Utilisez un service comme DigitalOcean pour créer et configurer votre serveur VPS.', '2024-07-17 22:45:36', NULL, 0, 300, 'lyqebe2k0.w1mclup141o', 24),
-(302, 'DeployDruid', 'Installez Node.js et configurez un reverse proxy avec Nginx pour gérer les requêtes.', '2024-07-17 22:46:00', NULL, 0, 300, 'lyqebe2k0.w1mclup141o', 6);
+(300, 'DeployDev', 'Comment déployer une application Node.js sur un serveur VPS ?', '2024-07-17 22:45:03', NULL, 4, NULL, 'lyqf8k0w0.i4krbuqmmr', 23),
+(301, 'ServerSage', 'Utilisez un service comme DigitalOcean pour créer et configurer votre serveur VPS.', '2024-07-17 22:45:36', NULL, 3, 300, 'lyqebe2k0.w1mclup141o', 24),
+(302, 'DeployDruid', 'Installez Node.js et configurez un reverse proxy avec Nginx pour gérer les requêtes.', '2024-07-17 22:46:00', NULL, 1, 300, 'lyqebe2k0.w1mclup141o', 6),
+(303, 'GrannyLove2Code', 'Je ne l\'ai jamais fait mais mon petit-fils pourra sûrement t\'aider !', '2024-07-17 23:03:02', '2024-07-17 23:20:54', 8, 300, 'lyqdazqm0.44df2rrwhci', 17),
+(325, 'Joseph', 'great job', '2024-07-18 22:24:38', NULL, 3, 288, 'lyru50ft0.1l665cp9nl5', 22),
+(331, 'Ctrl_FJ', 'Thanks !', '2024-07-19 10:26:27', NULL, 0, 325, 'lyqxrcu00.fa4fio0hswm', 24),
+(345, 'Annabelle', 'Salut Mamie, tu codes ce soir ?', '2024-07-19 17:13:58', NULL, 0, 303, 'lynfv5p50.h67qbaehqvu', 18);
 
 --
 -- Index pour les tables déchargées
@@ -76,7 +80,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=350;
 
 --
 -- Contraintes pour les tables déchargées
