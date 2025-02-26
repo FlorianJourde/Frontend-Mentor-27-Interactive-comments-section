@@ -62,7 +62,7 @@ export default function CommentLikes(
 
   return (
     <>
-      <div className='likes flex flex-col bg-[#f5faf5] rounded-xl justify-center items-center p-3'>
+      <div className='likes flex flex-col bg-[#f8f3e9] rounded-xl justify-center items-center p-3'>
         <button className='font-bold text-[#37967f]' onClick={() => updateLikes(comment.id, comment.likes, '+')}>+</button>
         <AnimatePresence mode='wait'>
           <motion.p {...LikesAnimation(isLikeUpvote ? [-5, 5] : [5, -5])} className='font-bold text-[#305f53]' key={comment.likes}>{comment.likes}</motion.p>
