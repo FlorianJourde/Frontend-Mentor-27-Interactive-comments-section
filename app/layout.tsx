@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} + min-h-svh bg-[#f8f3e9] pt-24 pb-24 relative`}>{children}</body>
+      <body className={`${outfit.className} + min-h-svh bg-[#f8f3e9] pt-12 pb-12 relative`}>{children}</body>
     </html>
   );
 }

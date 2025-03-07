@@ -105,10 +105,10 @@ export default function Comments() {
         <h1 className={`${limelight.className} + text-6xl sm:text-[80px] md:text-[150px] leading-none font-bold text-[#305f53] text-center`}>Webask</h1>
         <h2 className='text-2xl font-semibold text-[#37967f] text-center'>Renseigne-toi sur le développement web !</h2>
       </header>
-      <ul className='flex flex-col gap-5 max-h-screen overflow-auto pr-4 scrollbar'>
+      <ul className='flex flex-col gap-5 max-h-screen overflow-auto p-5 scrollbar rounded-3xl bg-black bg-opacity-5'>
         {comments.map((comment, index) => (
           <AnimatePresence mode='wait' key={`${comment.id}-${comment.author}`}>
-            <motion.li layout {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm items + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
+            <motion.li layout {...CommentAnimation(isCommentsLoading ? index * .1 : 0)} className={`bg-white p-5 rounded-2xl items-start grid grid-cols-[minmax(0,_50px),_minmax(0,_1fr)] gap-5 shadow-sm items + ${comment.related_comment ? 'reply ml-5 md:ml-20 relative before:content-[""] before:absolute before:-top-10 before:bottom-0 before:bg-[#9fdfce] md:before:bg-[#37967f] before:w-1 before:-left-5 md:before:-left-10 before:rounded-sm z-10' : 'z-20'}`}>
 
               <CommentLikes comment={comment} comments={comments} setComments={setComments} />
 

@@ -39,13 +39,20 @@
   background: #305f53;
 }
 
-.scrollbar::-webkit-scrollbar {
+.scrollbar {
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* .scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
   border: unset;
-}
+} */
 
 /* :root {
   --foreground-rgb: 0, 0, 0;
